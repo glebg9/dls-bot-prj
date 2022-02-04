@@ -17,14 +17,25 @@ Code is highly commented, find model implementation details in _model_ module.
 Telegram bot @dls-glebg-prj
 ----
 Simple structure. Asynchronicity achieved via aiogram.
+I know that my token is compromised.
 
-Deployment
+Installation
 ---
-For deployment needs aws free tier servers was choosed
+```
+git clone https://github.com/glebg9/dls-bot-prj.git
+git clone https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix.git
+cd dls-bot-prj
+pip3 install requirements.txt
+python3 main.py 
+```
 
-Deployment steps
-- login into machine
-- install python ```sudo yum install python3```
-- clone repo
-- install requirements ```pip3 install -r requirements.txt```
-- start bot ```python3 main.py```
+CycleGan
+---
+Pretrained weights and model from <https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix>
+
+CycleGan will MONETize any given image.
+
+Download pretrained weights
+```bash ./scripts/download_cyclegan_model.sh style_monet```
+
+Model invocation implemented in cyclegan_invocation.py.
