@@ -57,7 +57,7 @@ def cyclegan_process_image(usr_id, image_path, output_path):
     try:
         os.removedirs(f"datasets/{usr_id}")
     except OSError as error:
-        ...
+        pass
 
     os.chdir("../dls-bot")
     copy(f"../pytorch-CycleGAN-and-pix2pix/{new_path}", output_path)

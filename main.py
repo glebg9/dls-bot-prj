@@ -15,6 +15,7 @@ bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
 users = {}
+lock = {}
 
 
 async def handle_photo(message):
@@ -25,6 +26,8 @@ async def handle_photo(message):
     if usr_id in users:
         await message.photo[-1].download(content)
         await message.reply("Well, processing image now. It could take some time.")
+        # lock
+        lock[usr_id] = True
         # do style transform
         if users[usr_id] == 'monetize':
             cyclegan_process_image(usr_id, content, output)
@@ -33,13 +36,18 @@ async def handle_photo(message):
                            content,
                            output)
         await bot.send_photo(message["from"]["id"], types.InputFile(output))
+        # unlock
+        del lock[usr_id]
         # clean up
-        del users[message['from']['id']]
-        os.remove(style)
-        os.remove(content)
-        os.remove(output)
+        try:
+            del users[message['from']['id']]
+            os.remove(style)
+            os.remove(content)
+            os.remove(output)
+        except:
+            pass
     else:
-        users[message['from']['id']] = True
+        users[usr_id] = True
         await message.photo[-1].download(style)
         await message.reply("Great, now send me picture that will be processed")
 
@@ -75,6 +83,9 @@ async def send_welcome(message: types.Message):
 @dp.message_handler(content_types=['photo'])
 async def handle_docs_photo(message):
     print(message)
+    if message["from"]["id"] in lock:
+        await message.reply("Still processing...")
+        return
     await handle_photo(message)
 
 
