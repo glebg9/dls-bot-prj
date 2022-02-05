@@ -25,7 +25,7 @@ Installation
 git clone https://github.com/glebg9/dls-bot-prj.git
 git clone https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix.git
 cd dls-bot-prj
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 python3 main.py 
 ```
 
